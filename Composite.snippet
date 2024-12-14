@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<CodeSnippets  xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <Title>Composite</Title>
+      <Shortcut>Composite</Shortcut>
+      <Description>Compositeテンプレートパターン</Description>
+      <Author>YK</Author>
+    </Header>
+    <Snippet>
+      <Declarations>
+        <Literal Editable="false"></Literal>
+      </Declarations>
+      <Code Language="csharp"><![CDATA[//木構造を使った再帰的なデータ構造でオブジェクトを管理する
+
+//ゲームエンジンのゲームオブジェクトの管理によく使われる
+
+
+class Node{
+public:
+・・・省略
+//子を追加する
+void addChild(Node* child){
+chidren_.push_back(child);
+}
+
+//更新
+void update(float deltaTime){
+//自身の更新
+doUpdate(deltaTime);
+//子を更新
+std::for_each(children_.begin(),children_.end(),
+[=](Node* child){child->update(deltaTime);});
+}
+
+private:
+//自身の更新
+virtual void doUpdate(float deltaTime){
+(void)deltaTime;
+}
+
+//自身の描画
+virtual void doDraw(Renderer& renderer)
+{
+(void)renderer;
+}
+
+private:
+//子ノード
+std::list<Node*>children;//Nodeクラスを自己参照する
+//そのほかのメンバ変数
+};
+
+
+$end$]]></Code>
+    </Snippet>
+  </CodeSnippet>
+</CodeSnippets>

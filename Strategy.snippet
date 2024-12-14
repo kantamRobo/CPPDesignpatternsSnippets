@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<CodeSnippets  xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <Title>Strategy</Title>
+      <Shortcut>Strategy</Shortcut>
+      <Description>ストラテジーパターンのスニペット</Description>
+      <Author>YK</Author>
+    </Header>
+    <Snippet>
+      <Declarations>
+        <Literal Editable="false"></Literal>
+      </Declarations>
+      <Code Language="csharp"><![CDATA[class ComPlayer{
+public:
+//コンストラクタでAIの思考レベルを受け取る
+ComPlayer(AI_Level level):level_(level){
+}
+
+//思考する
+
+void think(Board& board){
+switch(level_){
+//やさしい
+case AI_EASY:thinkEasy(board);
+break;
+//ふつう
+case AI_NORMAL:thinkNormal(board);break;
+//むずかしい
+case AI_HARD:thinkHard(board);break;
+}
+}
+//やさしいレベル思考アルゴリズム
+void thinkEasy(Board& board){
+//やさしいレベルの思考アルゴリズム実装
+}
+
+//普通レベル思考アルゴリズム
+void thinkNormal(Board& board({
+//普通レベルの思考アルゴリズム実装
+}
+
+//むずかしいレベル思考アルゴリズム
+void thinkHard(Board& board){
+//むずかしいレベルの思考アルゴリズム実装
+}
+
+private:
+AI_Level level;//AIのレベル
+//そのほかのメンバ変数
+};
+ステートが複雑な場合
+
+
+//AI抽象インターフェース
+class AI{
+public:
+virtual ~AI(){}
+//考える
+virtual void think(Board& board)=0:
+};
+
+//やさしいモードAI
+
+class EasyAI:public AI{
+virtual void think(Board& board)override{
+//優しいモードの思考アルゴリズム実装
+};
+
+//普通モードAI
+class NormalAI:public AI{
+public:
+virtual void think(Board& board)override{
+//普通モードの思考アルゴリズム実装
+}
+};
+
+//難しいモードの実装アルゴリズム実装
+}
+}:$end$]]></Code>
+    </Snippet>
+  </CodeSnippet>
+</CodeSnippets>
