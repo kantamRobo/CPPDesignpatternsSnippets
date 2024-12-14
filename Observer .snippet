@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<CodeSnippets  xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <Title>Observer</Title>
+      <Shortcut>Observer</Shortcut>
+      <Description>Observerテンプレートパターン</Description>
+      <Author>YK</Author>
+    </Header>
+    <Snippet>
+      <Declarations>
+        <Literal Editable="false"></Literal>
+      </Declarations>
+      <Code Language="csharp"><![CDATA[class ButtonClickListener{
+public:
+//仮想デストラクタ
+virtual ~ButtonClickListener(){}
+//クリックされた
+virtual void OnClick=0;
+};
+
+//ボタンクラス(観測者に通知する役)
+class Button{
+public:
+//観測者の登録
+void addListener(ButtonClickListener* listener){
+listener_.push_back(listener);
+}
+
+//クリックされた
+void click(){
+//ボタンが押されたことを観測者に通知
+notify();
+}
+
+
+private:
+
+//観測者に通知
+void notify(){
+//ボタンが押されたことを観測者に通知
+for(auto listener: listeners_){
+listener->onClick();
+}
+}
+
+//イベント受け取る観測者たち
+std::vector<ButtonClickListener*>listerners_;
+
+}
+
+
+//タイトルシーンクラス
+class TitleScene:public ButtonClickListener{
+public:
+//タイトルシーンの初期化
+void Initialize()
+{
+//スタートボタンに自分自身をリスナーとして登録
+startButton_.addListener(this);
+}
+
+//スタートボタンがクリックされたときのイベントを受け取る
+virtual void onClick()override{
+//ゲームシーンに変更
+changeScene(GamePlay);
+}
+
+
+$end$]]></Code>
+    </Snippet>
+  </CodeSnippet>
+</CodeSnippets>
