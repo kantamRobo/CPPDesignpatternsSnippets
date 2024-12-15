@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<CodeSnippets  xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <Title>Producer-Consumer template</Title>
+      <Shortcut>Producer-Consumer template</Shortcut>
+      <Description>Producer-Consumerのデザインパターンテンプレート</Description>
+      <Author>YK</Author>
+    </Header>
+    <Snippet>
+      <Declarations>
+        <Literal Editable="false"></Literal>
+      </Declarations>
+      <Code Language="csharp"><![CDATA[
+typedef sem_t Semaphore;
+
+Semaphore *make_semaphore(int value);
+void semaphore_wait(Semaphore *sem);
+void semaphore_signal(Semaphore *sem);
+
+それでは、各メソッドについて簡単に説明します：
+
+make_semaphore-これはセマフォの作成関数で、セマフォの初期値をパラメータとして受け取ります。セマフォの初期値をパラメータとして受け取り、空間を確保して初期化し、セマフォへのポインタを返します。
+semaphore_wait - この関数は、セマフォのカウントをデクリメントします。デクリメント後にセマフォカウントが負であった場合、呼び出し元のスレッドはブロックする。
+semaphore_signal - セマフォのカウントをインクリメントする関数です。カウントが非負（すなわち0以上）になり、スレッドがセマフォ上でブロックされた場合、待機中のスレッドが実行するようにスケジュールされます。
+
+セマフォを使えば、簡単なproducer-consumerを実装することができる：
+
+Semaphore *mutex = make_semaphore(0);
+Semaphore *empty = make_semaphore(0);
+Semaphore *full = make_semaphore(0);
+Array buffer = []
+
+
+function producer(){
+   do {
+   	// produce item
+    
+   	semaphore_wait(empty);
+   	semaphore_wait(mutex);
+   	
+    // put item in buffer
+    
+   	semaphore_signal(mutex);
+   	semaphore_signal(full);
+    } while(1);
+}
+
+function consumer(){
+   do {
+    wait(full);
+    wait(mutex);
+   	
+    // remove item from buffer
+   	signal(mutex);
+   	signal(empty);
+   	
+    // consume item
+    
+	} while(1);
+
+}
+
+
+
+typedef sem_t Semaphore;
+
+Semaphore *make_semaphore(int value);
+void semaphore_wait(Semaphore *sem);
+void semaphore_signal(Semaphore *sem);
+Semaphore *mutex = make_semaphore(0);
+Semaphore *empty = make_semaphore(0);
+Semaphore *full = make_semaphore(0);
+Array buffer = []
+
+
+function producer(){
+   do {
+   	// produce item
+    
+   	semaphore_wait(empty);
+   	semaphore_wait(mutex);
+   	
+    // put item in buffer
+    
+   	semaphore_signal(mutex);
+   	semaphore_signal(full);
+    } while(1);
+}
+
+function consumer(){
+   do {
+    wait(full);
+    wait(mutex);
+   	
+    // remove item from buffer
+   	signal(mutex);
+   	signal(empty);
+   	
+    // consume item
+    
+	} while(1);
+
+}$end$]]></Code>
+    </Snippet>
+  </CodeSnippet>
+</CodeSnippets>

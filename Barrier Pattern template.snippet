@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<CodeSnippets  xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <Title>Barrier Pattern template</Title>
+      <Shortcut>Barrier Pattern template</Shortcut>
+      <Description>Barrier Patternのデザインパターンテンプレート</Description>
+      <Author>YK</Author>
+    </Header>
+    <Snippet>
+      <Declarations>
+        <Literal Editable="false"></Literal>
+      </Declarations>
+      <Code Language="csharp"><![CDATA[struct barrier_type
+{
+    // how many processors have entered the barrier
+    // initialize to 0
+    int arrive_counter;
+    // how many processors have exited the barrier
+    // initialize to p
+    int leave_counter;
+    int flag;
+    std::mutex lock;
+};
+
+// barrier for p processors
+void barrier(barrier_type* b, int p)
+{
+    b->lock.lock();
+    if (b->arrive_counter == 0)
+    {
+        b->lock.unlock();
+        while (b->leave_counter != p); // wait for all to leave before clearing
+        b->lock.lock();
+        b->flag = 0; // first arriver clears flag
+    }
+    b->arrive_counter++;
+    if (b->arrive_counter == p) // last arriver sets flag
+    {
+        b->arrive_counter = 0;
+        b->leave_counter = 0;
+        b->flag = 1;
+    }
+    b->lock.unlock();
+
+    while (b->flag == 0); // wait for flag
+    b->lock.lock();
+    b->leave_counter++;
+    b->lock.unlock();
+}
+$end$]]></Code>
+    </Snippet>
+  </CodeSnippet>
+</CodeSnippets>
