@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<CodeSnippets  xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <Title>BFS_template</Title>
+      <Shortcut>BFS_template</Shortcut>
+      <Description>幅優先探索　テンプレート</Description>
+      <Author>YK</Author>
+    </Header>
+    <Snippet>
+      <Declarations>
+        <Literal Editable="false"></Literal>
+      </Declarations>
+      <Code Language="csharp"><![CDATA[// 入力: グラフ G と，探索の始点 s
+// 出力: s から各頂点への最短路長を表す配列
+vector<int> BFS(const Graph &G, int s) {
+    int N = (int)G.size(); // 頂点数
+    vector<int> dist(N, -1); // 全頂点を「未訪問」に初期化
+    queue<int> que;
+
+    // 初期条件 (頂点 s を初期頂点とする)
+    dist[s] = 0;
+    que.push(s); // s を橙色頂点にする
+
+    // BFS 開始 (キューが空になるまで探索を行う)
+    while (!que.empty()) {
+        int v = que.front(); // キューから先頭頂点を取り出す
+        que.pop();
+
+        // v からたどれる頂点をすべて調べる
+        for (int x : G[v]) {
+            // すでに発見済みの頂点は探索しない
+            if (dist[x] != -1) continue; 
+
+            // 新たな白色頂点 x について距離情報を更新してキューに挿入
+            dist[x] = dist[v] + 1;
+            que.push(x);
+        }
+    }
+    return dist;
+}$end$]]></Code>
+    </Snippet>
+  </CodeSnippet>
+</CodeSnippets>
